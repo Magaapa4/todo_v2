@@ -1,41 +1,36 @@
 const createTodo = document.querySelector('.todo__button');
 const todoList = document.querySelector('.todo__list');
 const todoInutEnter = document.querySelector('.todo__input');
-
-// Эксперемантальный блок сделланых дел;
 const todoCompleted = document.querySelector('.todo__listCom');
 
-let counterTodo = document.querySelector('.counter');
-let num = 0;
+let counterTodoBlock = document.querySelector('.counter');
+let todosCount = 0;
 
 createTodo.addEventListener('click', newTodo);
 
-todoInutEnter.addEventListener('keyup', (i) => {
-    
+todoInutEnter.addEventListener('keyup', (i) => { 
     if(i.keyCode == 13) newTodo();
-
 })
 
-function newTodo() {
-    
+function newTodo() {   
     const todoValue = document.querySelector('.todo__input').value;
     
-    if (todoValue === '') return;
+    if (todoValue.trim() === '') return;
     
     const itemTodo = document.createElement('div');
 
-    const todoText = document.createElement('input');
-    todoText.setAttribute('data-key', Date.now());
+    const todoNameInput = document.createElement('input');
+    todoNameInput.setAttribute('data-key', Date.now());
 
     const wrapperButtons = document.createElement('div');
     const editTodo = document.createElement('button');
     const deleteTodo = document.createElement('button');
 
     itemTodo.classList.add('todo__item');
-    todoText.readOnly = true;
-    todoText.value = todoValue;
-    
-    todoText.classList.add('todo__text');
+    todoNameInput.readOnly = true;
+    todoNameInput.value = todoValue.trim();
+
+    todoNameInput.classList.add('todo__text');
 
     editTodo.classList.add('todoEdit');
     deleteTodo.classList.add('todoEdit');
@@ -44,33 +39,32 @@ function newTodo() {
     deleteTodo.textContent = 'Удалить';
     
     todoList.appendChild(itemTodo);
-    itemTodo.appendChild(todoText);
+    itemTodo.appendChild(todoNameInput);
     itemTodo.appendChild(wrapperButtons);
     wrapperButtons.appendChild(editTodo);
     wrapperButtons.appendChild(deleteTodo);
     
     clearInputTodo();
 
-    ++num;
-    counterTodo.textContent = `Сегодня дел ${num}`;
+    ++todosCount;
+    counterTodoBlock.textContent = `Сегодня дел ${todosCount}`;
 
     deleteTodo.addEventListener('click', () => {
         
         itemTodo.remove();
         
-        const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoText.dataset.key);
+        const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoNameInput.dataset.key);
 
         if(completedTodoIndex !== -1) {    
             todoCompleted.children[completedTodoIndex].remove();
         } else {
-            --num;
+            --todosCount;
         }
 
-        counterTodo.textContent = `Сегодня дел ${num}`;
+        counterTodoBlock.textContent = `Сегодня дел ${todosCount}`;
 
-        if (num === 0) counterTodo.textContent = '';
-        
-        
+        if (todosCount === 0) counterTodoBlock.textContent = '';
+            
     });
 
     const save = document.createElement('button');
@@ -78,8 +72,8 @@ function newTodo() {
     
     editTodo.addEventListener('click', () => {
         
-        todoText.readOnly = false;
-        todoText.classList.add('todo__edit');
+        todoNameInput.readOnly = false;
+        todoNameInput.classList.add('todo__edit');
 
         save.textContent = 'сохранить';
         noSave.textContent = 'Отмена';
@@ -94,21 +88,21 @@ function newTodo() {
         deleteTodo.remove();
     });
     
-    let prevTodoText = todoText.value;
+    let prevtodoNameInput = todoNameInput.value;
     
     save.addEventListener('click', () => {
         
-        const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoText.dataset.key);
+        const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoNameInput.dataset.key);
             
         if(completedTodoIndex !== -1) {    
-            todoCompleted.children[completedTodoIndex].textContent = todoText.value;
+            todoCompleted.children[completedTodoIndex].textContent = todoNameInput.value;
         }
 
-        prevTodoText = todoText.value;
+        prevtodoNameInput = todoNameInput.value;
         
-        todoText.readOnly = true;
-        todoText.classList.remove('todo__edit');
-        todoText.classList.add('todo__text');
+        todoNameInput.readOnly = true;
+        todoNameInput.classList.remove('todo__edit');
+        todoNameInput.classList.add('todo__text');
         
         save.remove();
         noSave.remove();
@@ -119,10 +113,10 @@ function newTodo() {
     
     noSave.addEventListener('click', () => {
         
-        todoText.value = prevTodoText;
-        todoText.readOnly = true;
-        todoText.classList.remove('todo__edit');
-        todoText.classList.add('todo__text');
+        todoNameInput.value = prevtodoNameInput;
+        todoNameInput.readOnly = true;
+        todoNameInput.classList.remove('todo__edit');
+        todoNameInput.classList.add('todo__text');
 
         save.remove();
         noSave.remove();
@@ -130,37 +124,33 @@ function newTodo() {
         wrapperButtons.appendChild(deleteTodo);
     });
 
-    // let todoTextClone = todoText.cloneNode(true);
-    // let todoTextClone = document.createElement('div');
-    //! поменять todoTextClone на newCompletedTodo
-    todoText.addEventListener('click', (event) => {
-        if(todoText.readOnly) {
+    todoNameInput.addEventListener('click', (event) => {
+        if(todoNameInput.readOnly) {
             
             
-            todoText.blur();
-            todoText.classList.toggle('test');
+            todoNameInput.blur();
+            todoNameInput.classList.toggle('test');
             
-            let todoTextClone = document.createElement('div');
-            todoTextClone.setAttribute('data-key', todoText.dataset.key);
-            todoTextClone.textContent = todoText.value;
-            todoTextClone.classList.add('todo__listComItem') ;
-            
-            const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoText.dataset.key);
-            
+            let newCompletedTodo = document.createElement('div');
+            newCompletedTodo.setAttribute('data-key', todoNameInput.dataset.key);
+            newCompletedTodo.textContent = todoNameInput.value;
+            newCompletedTodo.classList.add('todo__listComItem') ;
 
+            const completedTodoIndex = Array.from(todoCompleted.children).findIndex( item => item.dataset.key === todoNameInput.dataset.key);
+            
             if(completedTodoIndex !== -1) {
                 todoCompleted.children[completedTodoIndex].remove();
-                ++num;
-                counterTodo.textContent = `Сегодня дел ${num}`; 
+                ++todosCount;
+                counterTodoBlock.textContent = `Сегодня дел ${todosCount}`; 
             } else {
 
-                --num;
-                if (!num)  {
-                    counterTodo.textContent = '';
+                --todosCount;
+                if (!todosCount)  {
+                    counterTodoBlock.textContent = '';
                 } else {
-                    counterTodo.textContent = `Сегодня дел ${num}`; 
+                    counterTodoBlock.textContent = `Сегодня дел ${todosCount}`; 
                 }               
-                todoCompleted.appendChild(todoTextClone);
+                todoCompleted.appendChild(newCompletedTodo);
             }
         }
     });
