@@ -150,6 +150,7 @@ function newTodo() {
                     counterTodoBlock.textContent = `Сегодня дел ${todosCount}`; 
                 }               
                 todoCompleted.appendChild(newCompletedTodo);
+                
             }
         }
     });
