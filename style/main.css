@@ -129,6 +129,7 @@ body {
     font-size: 17px;
 }
 .todo__text {
+    cursor: pointer;
     background: initial;
     border: 0;
     font-size: 16px;
@@ -138,6 +139,7 @@ body {
     outline: 0;
 }
 .todo__edit {
+    text-decoration: none;
     background: #fff;
     outline: 0;
     color: #000;
@@ -172,12 +174,15 @@ body {
     width: 100%;
 }
 .todo__listComItem {
+    cursor: pointer;
     animation-name: testDone;
     animation-duration: .2s;
     width: 100%;
+    color: #000;
     background: #5ad8bd;
     border-radius: 5px;
-    padding: 5px;
+    padding: 7px;
+    font-family: arial, sans-serif;
     margin-bottom: 5px;
 }
 
