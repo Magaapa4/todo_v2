@@ -1,6 +1,6 @@
 const createTodo = document.querySelector('.todo__button');
 const todoList = document.querySelector('.todo__list');
-const todoInutEnter = document.querySelector('.todo__input');
+const todoInputEnter = document.querySelector('.todo__input');
 const todoCompleted = document.querySelector('.todo__listCom');
 
 let counterTodoBlock = document.querySelector('.counter');
@@ -8,7 +8,7 @@ let todosCount = 0;
 
 createTodo.addEventListener('click', newTodo);
 
-todoInutEnter.addEventListener('keyup', (i) => { 
+todoInputEnter.addEventListener('keyup', (i) => { 
     if(i.keyCode == 13) newTodo();
 })
 
@@ -88,7 +88,7 @@ function newTodo() {
         deleteTodo.remove();
     });
     
-    let prevtodoNameInput = todoNameInput.value;
+    let prevTodoNameInput = todoNameInput.value;
     
     save.addEventListener('click', () => {
         
@@ -98,7 +98,7 @@ function newTodo() {
             todoCompleted.children[completedTodoIndex].textContent = todoNameInput.value;
         }
 
-        prevtodoNameInput = todoNameInput.value;
+        prevTodoNameInput = todoNameInput.value;
         
         todoNameInput.readOnly = true;
         todoNameInput.classList.remove('todo__edit');
@@ -113,7 +113,7 @@ function newTodo() {
     
     noSave.addEventListener('click', () => {
         
-        todoNameInput.value = prevtodoNameInput;
+        todoNameInput.value = prevTodoNameInput;
         todoNameInput.readOnly = true;
         todoNameInput.classList.remove('todo__edit');
         todoNameInput.classList.add('todo__text');
@@ -126,7 +126,6 @@ function newTodo() {
 
     todoNameInput.addEventListener('click', (event) => {
         if(todoNameInput.readOnly) {
-            
             
             todoNameInput.blur();
             todoNameInput.classList.toggle('test');
